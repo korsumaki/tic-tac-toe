@@ -1,4 +1,4 @@
-rootProject.name = "Tic-Tac-Toe"
+rootProject.name = "TicTacToe"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
