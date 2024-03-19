@@ -30,9 +30,8 @@ jobs:
       with:
         name: android
         path: |
-          composeApp/build/outputs/apk/debug/android-debug.apk
-          composeApp/build/outputs/apk/release/android-release.apk
-          composeApp/build/outputs/mapping/release/mapping.txt
+          composeApp/build/outputs/apk/debug/composeApp-debug.apk
+          composeApp/build/outputs/apk/release/composeApp-release-unsigned.apk
 
   build_desktop:
     name: Build desktop
