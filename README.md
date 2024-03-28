@@ -17,9 +17,7 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 
 ## Android
 
-    ./gradlew build
-
-**NOTE** This actually build lot more than just Android.
+    ./gradlew assembleDebug
 
 ## Desktop
 
@@ -33,7 +31,7 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 
 **NOTE** Stop gradlew task with CTRL-C
 
-# TODO Stuff
+## TODO Stuff
   + OK: test compilations: +android, +web, +desktop
   + code to github
     + create repo
@@ -42,8 +40,10 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - use compose preview
     - test with device or desktop
     - fast way to build from IDE?
-  - start with unit tests
-    - 
+  - Some basic UI grid
+  - react to tapping
+  - Kotlin unit tests
+  - compose testing
   - Android Studio
     + debug
     - Preview for UI
@@ -66,4 +66,3 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - dependabot
     - unit tests (kotlin tests)
       - https://kotlinlang.org/docs/multiplatform-add-dependencies.html#test-libraries
-    - 
