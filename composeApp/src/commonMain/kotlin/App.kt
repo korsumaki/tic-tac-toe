@@ -27,6 +27,40 @@ import tictactoe.composeapp.generated.resources.empty_24px
 @Composable
 @Preview
 fun App() {
+    val borderModifier = Modifier.border(
+        border = BorderStroke(
+            width = 1.dp,
+            color = Color.Blue)
+    )
+    AppWithParams(
+        cross = {
+            Image(
+                modifier = borderModifier,
+                painter = painterResource(Res.drawable.close_24px),
+                contentDescription = "Cross"
+            )
+        },
+        circle = {
+            Image(
+                modifier = borderModifier,
+                painter = painterResource(Res.drawable.circle_24px),
+                contentDescription = "Circle"
+            )
+        },
+        empty = {
+            Image(
+                modifier = borderModifier,
+                painter = painterResource(Res.drawable.empty_24px),
+                contentDescription = "Empty"
+            )
+        }
+    )
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+@Preview
+fun AppWithParams(cross: @Composable () -> Unit, circle: @Composable () -> Unit, empty: @Composable () -> Unit ) {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -45,37 +79,13 @@ fun App() {
                     Column {
                         repeat(10) { y ->
                             if ((x+y)%5==0) {
-                                Image(
-                                    modifier = Modifier.border(
-                                        border = BorderStroke(
-                                            width = 1.dp,
-                                            color = Color.Blue)
-                                    ),
-                                    painter = painterResource(Res.drawable.close_24px),
-                                    contentDescription = null
-                                )
+                                cross()
                             }
                             else if ((x+y)%7==2) {
-                                Image(
-                                    modifier = Modifier.border(
-                                        border = BorderStroke(
-                                            width = 1.dp,
-                                            color = Color.Blue)
-                                    ),
-                                    painter = painterResource(Res.drawable.circle_24px),
-                                    contentDescription = null
-                                )
+                                circle()
                             }
                             else {
-                                Image(
-                                    modifier = Modifier.border(
-                                        border = BorderStroke(
-                                            width = 1.dp,
-                                            color = Color.Blue)
-                                    ),
-                                    painter = painterResource(Res.drawable.empty_24px),
-                                    contentDescription = null
-                                )
+                                empty()
                             }
                         }
                     }

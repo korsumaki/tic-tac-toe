@@ -1,9 +1,11 @@
 package com.korsumaki.tictactoe
 
 import App
+import AppWithParams
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -17,8 +19,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+// @PreviewScreenSizes
+// @PreviewFontScales
+// @PreviewLightDark
+// @PreviewDynamicColors
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AppAndroidPreview() {
-    App()
+    AppWithParams(
+        cross = { Text(" X ") },
+        circle = { Text(" O ") },
+        empty = { Text("   ") }
+    )
 }
