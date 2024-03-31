@@ -42,7 +42,7 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - fast way to build from IDE?
   + Some basic UI grid
   - react to tapping
-  - Kotlin unit tests
+  + Kotlin unit tests
   - compose testing
   - Android Studio
     + debug
