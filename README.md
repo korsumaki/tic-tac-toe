@@ -37,16 +37,16 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     + create repo
     + push
   - find own workflow for developing
-    - use compose preview
+    + use compose preview
     - test with device or desktop
     - fast way to build from IDE?
-  - Some basic UI grid
+  + Some basic UI grid
   - react to tapping
   - Kotlin unit tests
   - compose testing
   - Android Studio
     + debug
-    - Preview for UI
+    + Preview for UI
       - https://developer.android.com/jetpack/compose/tooling/previews
       - @PreviewScreenSizes, @PreviewFontScales, @PreviewLightDark, and @PreviewDynamicColors
     - command line
