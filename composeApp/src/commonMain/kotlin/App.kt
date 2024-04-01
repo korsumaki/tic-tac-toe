@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -27,29 +28,21 @@ import tictactoe.composeapp.generated.resources.empty_24px
 @Composable
 @Preview
 fun App() {
-    val borderModifier = Modifier.border(
-        border = BorderStroke(
-            width = 1.dp,
-            color = Color.Blue)
-    )
     AppWithParams(
         cross = {
             Image(
-                modifier = borderModifier,
                 painter = painterResource(Res.drawable.close_24px),
                 contentDescription = "Cross"
             )
         },
         circle = {
             Image(
-                modifier = borderModifier,
                 painter = painterResource(Res.drawable.circle_24px),
                 contentDescription = "Circle"
             )
         },
         empty = {
             Image(
-                modifier = borderModifier,
                 painter = painterResource(Res.drawable.empty_24px),
                 contentDescription = "Empty"
             )
@@ -74,18 +67,29 @@ fun AppWithParams(cross: @Composable () -> Unit, circle: @Composable () -> Unit,
                     Text("Compose: $greeting")
                 }
             }
+
+            val borderModifier = Modifier.border(
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = Color.Blue)
+            )
+
             Row {
-                repeat(10) { x ->
+                repeat(7) { x ->
                     Column {
-                        repeat(10) { y ->
-                            if ((x+y)%5==0) {
-                                cross()
-                            }
-                            else if ((x+y)%7==2) {
-                                circle()
-                            }
-                            else {
-                                empty()
+                        repeat(8) { y ->
+                            var isClicked by remember { mutableStateOf(false) }
+
+                            IconButton(
+                                onClick = { isClicked = !isClicked },
+                                modifier = borderModifier)
+                            {
+                                if (isClicked) {
+                                    cross()
+                                }
+                                else {
+                                    empty()
+                                }
                             }
                         }
                     }
