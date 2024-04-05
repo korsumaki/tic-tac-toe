@@ -89,3 +89,39 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
+
+  unit_testing:
+    name: Unit testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Test Android
+        run: ./gradlew testDebugUnitTest testReleaseUnitTest
+
+      - name: Test Desktop
+        run: ./gradlew desktopTest
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: composeApp/build/reports/tests
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: Unit Tests
+          path: composeApp/build/test-results/**/*.xml    # Path to test results
+          reporter: java-junit        # Format of test results

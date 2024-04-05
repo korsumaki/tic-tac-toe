@@ -29,40 +29,41 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     ./gradlew wasmJsBrowserDistribution
     ./gradlew wasmJsBrowserRun
 
+## Tests
+
+    ./gradlew desktopTest
+    ./gradlew testDebugUnitTest
+    ./gradlew testReleaseUnitTest
+
 **NOTE** Stop gradlew task with CTRL-C
 
 ## TODO Stuff
-  + OK: test compilations: +android, +web, +desktop
-  + code to github
-    + create repo
-    + push
-  - find own workflow for developing
+  - ViewModel
+    - callback func to update tapped info to viewmodel
+    - fill marks from viewmodel
+  - Algorithm to work behind viewmodel
+  - Platforms
+    - wear os
+  - Fine tuning
+    - Enable tapping to whole box
+    - scale UI properly (dynamically) in all platforms (android, web, desktop)
+    - responsive screen size
+  - Onw development workflow
     + use compose preview
     - test with device or desktop
     - fast way to build from IDE?
-  + Some basic UI grid
-  - react to tapping
-  + Kotlin unit tests
-  - compose testing
-  - Android Studio
-    + debug
-    + Preview for UI
-      - https://developer.android.com/jetpack/compose/tooling/previews
-      - @PreviewScreenSizes, @PreviewFontScales, @PreviewLightDark, and @PreviewDynamicColors
-    - command line
-      - build Android apk
-        - debug
-        - release
-      - build desktop
-        + ./gradlew packageUberJarForCurrentOS
-          - composeApp/build/compose/jars/com.korsumaki.tictactoe-macos-x64-1.0.0.jar
-      - build web
-        + ./gradlew wasmJsBrowserRun
-        + ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-        - /wasmJsBrowserDistribution
-        - use CTRL-C to stop gradlew after using
-    - CI build
-      - store lint file
-    - dependabot
-    - unit tests (kotlin tests)
-      - https://kotlinlang.org/docs/multiplatform-add-dependencies.html#test-libraries
+  - Testing
+    - Compose testing
+    - commands to execute tests?
+    - platform specific tests (if needed)
+  - Distribution
+    - release versions: android apk signing
+    - desktop distribution? What is needed?
+  - CI build
+    - store lint file
+    - run tests
+  - dependabot
+  - study version dependencies
+    - Kotlin Kotlin multiplatform vs Compose multiplatform
+  - unit tests (kotlin tests)
+    - https://kotlinlang.org/docs/multiplatform-add-dependencies.html#test-libraries
