@@ -1,4 +1,3 @@
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -21,7 +20,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import tictactoe.composeapp.generated.resources.Res
 import tictactoe.composeapp.generated.resources.circle_24px
 import tictactoe.composeapp.generated.resources.close_24px
-import tictactoe.composeapp.generated.resources.compose_multiplatform
 import tictactoe.composeapp.generated.resources.empty_24px
 
 @OptIn(ExperimentalResourceApi::class)
@@ -52,22 +50,13 @@ fun App() {
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
 fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable () -> Unit, circle: @Composable () -> Unit, empty: @Composable () -> Unit ) {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
+            Button(onClick = { viewModel.initialize() }) {
+                Text("New game!")
             }
 
             val borderModifier = Modifier.border(
@@ -75,29 +64,21 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
                     width = 1.dp,
                     color = Color.Blue)
             )
-            Text("count ${viewModel.tapCount}")
+            Text("Next turn: ${viewModel.nextTurn}")
 
             Row {
                 repeat(viewModel.sizeX) { x ->
                     Column {
                         repeat(viewModel.sizeY) { y ->
-                            //var isClicked by remember { mutableStateOf(false) }
-
                             IconButton(
-                                onClick = {
-                                    var nextMark = 1
-                                    if (viewModel.latestTappedMark == 1) {
-                                        nextMark = 2
-                                    }
-                                    viewModel.tapped(x, y, nextMark)
-                                          },
+                                onClick = { viewModel.tapped(x, y) },
                                 modifier = borderModifier)
                             {
                                 val index = x + y * viewModel.sizeX
-                                if (viewModel.ticArray[index] == 1) {
+                                if (viewModel.ticArray[index] == TicMark.X.value) {
                                     cross()
                                 }
-                                else if (viewModel.ticArray[index] == 2) {
+                                else if (viewModel.ticArray[index] == TicMark.O.value) {
                                     circle()
                                 }
                                 else {

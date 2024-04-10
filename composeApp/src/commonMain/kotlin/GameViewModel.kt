@@ -1,5 +1,4 @@
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
@@ -11,23 +10,35 @@ import androidx.compose.runtime.setValue
  * Difference is that ViewModel works with Android, MutableState works only with Jetpack Compose.
  */
 
-enum class TicMark {
-    EMPTY, O, X
+enum class TicMark(val value: Int) {
+    EMPTY(0), O(1), X(2)
 }
 
 // Dummy ViewModel
 class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
-    var tapCount by mutableIntStateOf(0)
-    var latestTappedMark by mutableStateOf(0)
+    var nextTurn by mutableStateOf(TicMark.X)
 
     val ticArray by mutableStateOf(IntArray(sizeX * sizeY))
 
-    fun tapped(x: Int, y:Int, mark: Int) {
+    fun initialize() {
+        nextTurn = TicMark.EMPTY
+        repeat(sizeX*sizeY) { index ->
+            ticArray[index] = TicMark.EMPTY.value
+        }
+        nextTurn = TicMark.X
+    }
+
+    fun tapped(x: Int, y:Int) {
         val index = x + y * sizeX
-        if (ticArray[index] == 0) {
-            ticArray[index] = mark
-            tapCount++
-            latestTappedMark = mark
+
+        if (ticArray[index] == TicMark.EMPTY.value) {
+            ticArray[index] = nextTurn.value
+
+            nextTurn = if (nextTurn == TicMark.X) {
+                TicMark.O
+            } else {
+                TicMark.X
+            }
         }
     }
 }
