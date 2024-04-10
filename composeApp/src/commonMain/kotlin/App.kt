@@ -28,7 +28,9 @@ import tictactoe.composeapp.generated.resources.empty_24px
 @Composable
 @Preview
 fun App() {
+    val viewModel = GameViewModel(7,8)
     AppWithParams(
+        viewModel,
         cross = {
             Image(
                 painter = painterResource(Res.drawable.close_24px),
@@ -53,7 +55,7 @@ fun App() {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
-fun AppWithParams(cross: @Composable () -> Unit, circle: @Composable () -> Unit, empty: @Composable () -> Unit ) {
+fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable () -> Unit, circle: @Composable () -> Unit, empty: @Composable () -> Unit ) {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -73,19 +75,30 @@ fun AppWithParams(cross: @Composable () -> Unit, circle: @Composable () -> Unit,
                     width = 1.dp,
                     color = Color.Blue)
             )
+            Text("count ${viewModel.tapCount}")
 
             Row {
-                repeat(7) { x ->
+                repeat(viewModel.sizeX) { x ->
                     Column {
-                        repeat(8) { y ->
-                            var isClicked by remember { mutableStateOf(false) }
+                        repeat(viewModel.sizeY) { y ->
+                            //var isClicked by remember { mutableStateOf(false) }
 
                             IconButton(
-                                onClick = { isClicked = !isClicked },
+                                onClick = {
+                                    var nextMark = 1
+                                    if (viewModel.latestTappedMark == 1) {
+                                        nextMark = 2
+                                    }
+                                    viewModel.tapped(x, y, nextMark)
+                                          },
                                 modifier = borderModifier)
                             {
-                                if (isClicked) {
+                                val index = x + y * viewModel.sizeX
+                                if (viewModel.ticArray[index] == 1) {
                                     cross()
+                                }
+                                else if (viewModel.ticArray[index] == 2) {
+                                    circle()
                                 }
                                 else {
                                     empty()

@@ -2,6 +2,7 @@ package com.korsumaki.tictactoe
 
 import App
 import AppWithParams
+import GameViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,7 +27,9 @@ class MainActivity : ComponentActivity() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AppAndroidPreview() {
+    val viewModel = GameViewModel(5,5)
     AppWithParams(
+        viewModel,
         cross = { Text(" X ") },
         circle = { Text(" O ") },
         empty = { Text("   ") }

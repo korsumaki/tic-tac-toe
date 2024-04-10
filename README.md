@@ -51,6 +51,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
   - Onw development workflow
     + use compose preview
     - test with device or desktop
+      - Ctrl-Shift-R in testcase or test class
+      - Ctrl-R to rerun tests
     - fast way to build from IDE?
   - Testing
     - Compose testing
@@ -64,6 +66,6 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - run tests
   - dependabot
   - study version dependencies
-    - Kotlin Kotlin multiplatform vs Compose multiplatform
+    - Kotlin vs Kotlin multiplatform vs Compose multiplatform
   - unit tests (kotlin tests)
     - https://kotlinlang.org/docs/multiplatform-add-dependencies.html#test-libraries
