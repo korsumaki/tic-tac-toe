@@ -74,15 +74,17 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
                                 onClick = { viewModel.tapped(x, y) },
                                 modifier = borderModifier)
                             {
-                                val index = x + y * viewModel.sizeX
-                                if (viewModel.ticArray[index] == TicMark.X.value) {
-                                    cross()
-                                }
-                                else if (viewModel.ticArray[index] == TicMark.O.value) {
-                                    circle()
-                                }
-                                else {
-                                    empty()
+                                val mark = viewModel.get(x,y)
+                                when (mark) {
+                                    TicMark.X -> {
+                                        cross()
+                                    }
+                                    TicMark.O -> {
+                                        circle()
+                                    }
+                                    else -> {
+                                        empty()
+                                    }
                                 }
                             }
                         }

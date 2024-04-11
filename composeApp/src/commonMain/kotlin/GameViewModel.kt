@@ -10,15 +10,18 @@ import androidx.compose.runtime.setValue
  * Difference is that ViewModel works with Android, MutableState works only with Jetpack Compose.
  */
 
+/**
+ * Enum for Marks
+ */
 enum class TicMark(val value: Int) {
-    EMPTY(0), O(1), X(2)
+    EMPTY(0), O(1), X(2), EDGE(3)
 }
 
 // Dummy ViewModel
 class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
     var nextTurn by mutableStateOf(TicMark.X)
 
-    val ticArray by mutableStateOf(IntArray(sizeX * sizeY))
+    private val ticArray by mutableStateOf(IntArray(sizeX * sizeY))
 
     fun initialize() {
         nextTurn = TicMark.EMPTY
@@ -28,11 +31,38 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
         nextTurn = TicMark.X
     }
 
-    fun tapped(x: Int, y:Int) {
-        val index = x + y * sizeX
+    fun get(x: Int, y: Int): TicMark {
+        if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
+            return TicMark.EDGE
+        }
 
-        if (ticArray[index] == TicMark.EMPTY.value) {
-            ticArray[index] = nextTurn.value
+        return when(ticArray[x + y * sizeX]) {
+            0 -> TicMark.EMPTY
+            1 -> TicMark.O
+            2 -> TicMark.X
+            else -> TicMark.EDGE
+        }
+    }
+
+    /**
+     * Set mark
+     *
+     * @param x
+     * @param y
+     * @param mark
+     * @exception Throws IllegalStateException if coordinates are illegal
+     */
+    fun set(x: Int, y: Int, mark: TicMark) {
+        check(x >= 0)
+        check(y >= 0)
+        check(x < sizeX)
+        check(y < sizeY)
+        ticArray[x + y * sizeX] = mark.value
+    }
+
+    fun tapped(x: Int, y:Int) {
+        if (get(x,y) == TicMark.EMPTY) {
+            set(x, y, nextTurn)
 
             nextTurn = if (nextTurn == TicMark.X) {
                 TicMark.O

@@ -42,6 +42,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - callback func to update tapped info to viewmodel
     - fill marks from viewmodel
   - Algorithm to work behind viewmodel
+    - Check winner
+    - Calculate next move
   - Platforms
     - wear os
   - Fine tuning
@@ -61,6 +63,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
   - Distribution
     - release versions: android apk signing
     - desktop distribution? What is needed?
+    - icon
+    - Play Store stuff
   - CI build
     - store lint file
     - run tests
