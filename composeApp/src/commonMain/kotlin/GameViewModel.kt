@@ -23,6 +23,9 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
 
     private val ticArray by mutableStateOf(IntArray(sizeX * sizeY))
 
+    /**
+     * Initialize play field
+     */
     fun initialize() {
         nextTurn = TicMark.EMPTY
         repeat(sizeX*sizeY) { index ->
@@ -31,15 +34,22 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
         nextTurn = TicMark.X
     }
 
+    /**
+     * Get mark from play field
+     *
+     * @param x     x coordinate
+     * @param y     y coordinate
+     * @return      TicMark
+     */
     fun get(x: Int, y: Int): TicMark {
         if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
             return TicMark.EDGE
         }
 
         return when(ticArray[x + y * sizeX]) {
-            0 -> TicMark.EMPTY
-            1 -> TicMark.O
-            2 -> TicMark.X
+            TicMark.EMPTY.value -> TicMark.EMPTY
+            TicMark.O.value -> TicMark.O
+            TicMark.X.value -> TicMark.X
             else -> TicMark.EDGE
         }
     }
@@ -47,9 +57,9 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
     /**
      * Set mark
      *
-     * @param x
-     * @param y
-     * @param mark
+     * @param x     x coordinate
+     * @param y     y coordinate
+     * @param mark  mark to set
      * @exception Throws IllegalStateException if coordinates are illegal
      */
     fun set(x: Int, y: Int, mark: TicMark) {

@@ -53,9 +53,16 @@ fun App() {
 @Composable
 @Preview
 fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable () -> Unit, circle: @Composable () -> Unit, empty: @Composable () -> Unit ) {
+    val game = GameLogic(viewModel)
     MaterialTheme {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { viewModel.initialize() }) {
+            var possibleWinnerMark by remember { mutableStateOf(TicMark.EMPTY) }
+            var isWinnerFound by remember { mutableStateOf(false) }
+
+            Button(onClick = {
+                viewModel.initialize()
+                isWinnerFound = false
+            }) {
                 Text("New game!")
             }
 
@@ -64,14 +71,26 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
                     width = 1.dp,
                     color = Color.Blue)
             )
-            Text("Next turn: ${viewModel.nextTurn}")
+
+            if (isWinnerFound) {
+                Text("Winner is $possibleWinnerMark")
+            }
+            else {
+                Text("Next turn: ${viewModel.nextTurn}")
+            }
 
             Row {
                 repeat(viewModel.sizeX) { x ->
                     Column {
                         repeat(viewModel.sizeY) { y ->
                             IconButton(
-                                onClick = { viewModel.tapped(x, y) },
+                                onClick = {
+                                    if (!isWinnerFound) {
+                                        possibleWinnerMark = viewModel.nextTurn
+                                        viewModel.tapped(x, y)
+                                        isWinnerFound = game.checkWinner(x,y,possibleWinnerMark)
+                                    }
+                                          },
                                 modifier = borderModifier)
                             {
                                 val mark = viewModel.get(x,y)

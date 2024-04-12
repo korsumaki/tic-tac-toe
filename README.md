@@ -39,10 +39,10 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 
 ## TODO Stuff
   - ViewModel
-    - callback func to update tapped info to viewmodel
-    - fill marks from viewmodel
+    + callback func to update tapped info to viewmodel
+    + fill marks from viewmodel
   - Algorithm to work behind viewmodel
-    - Check winner
+    + Check winner
     - Calculate next move
   - Platforms
     - wear os
@@ -50,9 +50,9 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - Enable tapping to whole box
     - scale UI properly (dynamically) in all platforms (android, web, desktop)
     - responsive screen size
-  - Onw development workflow
+  - Own development workflow
     + use compose preview
-    - test with device or desktop
+    + test with device or desktop
       - Ctrl-Shift-R in testcase or test class
       - Ctrl-R to rerun tests
     - fast way to build from IDE?
@@ -60,11 +60,14 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
     - Compose testing
     - commands to execute tests?
     - platform specific tests (if needed)
+    - LeakCanary
+    - Crashlytics
   - Distribution
     - release versions: android apk signing
     - desktop distribution? What is needed?
     - icon
     - Play Store stuff
+    - Version string
   - CI build
     - store lint file
     - run tests
