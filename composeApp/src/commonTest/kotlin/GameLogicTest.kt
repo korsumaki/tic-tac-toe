@@ -107,4 +107,80 @@ class GameLogicTest {
 
         assertEquals(true, game.checkWinner(9, 7, TicMark.X))
     }
+
+    @Test
+    fun testGameLogicRateSquare_justNeighbours() {
+        val model = GameViewModel(10,10)
+        val game = GameLogic(model,5)
+        val data = arrayOf(
+            //123456789
+            " oxxxo    ", //0
+            "   o o    ", //1
+            "          ", //2
+            "          ", //3
+            "    x     ", //4
+            "   x   ooo", //5
+            "       o o", //6
+            "o      ooo", //7
+        )
+        createGameField(model, data)
+
+        assertEquals(-1, game.rateSquare(4,4)) // Already filled -> -1
+        assertEquals(-1, game.rateSquare(0,7)) // Already filled -> -1
+        assertEquals(-1, game.rateSquare(-1,7)) // Edge -> -1
+        assertEquals(0, game.rateSquare(3,7)) // Empty, nothing near -> 0
+        assertEquals(1, game.rateSquare(3,3)) // 1 neighbour -> 1
+        assertEquals(1, game.rateSquare(4,3)) // 1 neighbour -> 1
+        assertEquals(1, game.rateSquare(5,5)) // 1 neighbour -> 1
+        assertEquals(2, game.rateSquare(4,5)) // 2 neighbour -> 2
+        assertEquals(2, game.rateSquare(2,1)) // 2/2 neighbours -> 2
+        assertEquals(3, game.rateSquare(4,1)) // 2/3 neighbours -> 3
+        assertEquals(8, game.rateSquare(8,6)) // 8 neighbours -> 8
+    }
+
+    @Test
+    fun testGameLogicRateSquare_moreMarks() {
+        val model = GameViewModel(10,10)
+        val game = GameLogic(model,5)
+        val data = arrayOf(
+            //123456789
+            "   xx    o", //0
+            "        o ", //1
+            "  o    o  ", //2
+            "  o       ", //3
+            "oo        ", //4
+            "   x o    ", //5
+            "   xo     ", //6
+            "xxx oo    ", //7
+        )
+        createGameField(model, data)
+
+        assertEquals(4, game.rateSquare(2,0)) // 2 in row -> 2*2 -> 4
+        assertEquals(9, game.rateSquare(6,3)) // 3 in row -> 3*3 -> 9
+        assertEquals(8, game.rateSquare(2,4)) // 2+2 in row -> 2*2 + 2*2 -> 8
+        assertEquals(13, game.rateSquare(3,7)) // 3+2 in row -> 3*3 + 2*2 -> 13
+    }
+
+    @Test
+    fun testGameLogicCalculateNextMove() {
+        val model = GameViewModel(10,10)
+        val game = GameLogic(model,3)
+        val data = arrayOf(
+            //123456789
+            "          ", //0
+            "          ", //1
+            "          ", //2
+            "          ", //3
+            "    x     ", //4
+            "          ", //5
+            "          ", //6
+            "          ", //7
+        )
+        createGameField(model, data)
+
+        // TODO dummy test
+        assertEquals(GameLogic.Coordinate(1, 1), game.calculateNextMove())
+        // X is on (4,4)
+        //assertEquals(GameLogic.Coordinate(3, 3), game.calculateNextMove())
+    }
 }

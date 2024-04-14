@@ -1,3 +1,6 @@
+import kotlin.math.max
+import kotlin.math.pow
+
 /**
  * Game Logic class
  *
@@ -57,5 +60,54 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
         }
 
         return false
+    }
+
+    data class Coordinate(val x: Int, val y: Int)
+
+    fun rateSquare(x: Int, y: Int): Int {
+        // Square must be empty to be meaningful to rate
+        if (model.get(x,y) != TicMark.EMPTY) {
+            return -1
+        }
+
+        //val opposite = 4 // Index to add to get opposite direction
+        val dirs = arrayOf(
+            Coordinate(1,0),
+            Coordinate(1,1),
+            Coordinate(0,1),
+            Coordinate(-1,1),
+
+            Coordinate(-1,0),
+            Coordinate(-1,-1),
+            Coordinate(0,-1),
+            Coordinate(1,-1),
+        )
+
+        var rateX = 0
+        var rateO = 0
+        for (direction in dirs) {
+            val rX = countForDirection(x+direction.x, y+direction.y, direction.x, direction.y, TicMark.X)
+            val rO = countForDirection(x+direction.x, y+direction.y, direction.x, direction.y, TicMark.O)
+
+            rateX += rX.toFloat().pow(2.0f).toInt()
+            rateO += rO.toFloat().pow(2.0f).toInt()
+        }
+
+        return max(rateX, rateO)
+    }
+
+    fun calculateNextMove(): Coordinate {
+        // Loop play field
+        /*repeat(model.sizeX) { x ->
+            repeat(model.sizeY) { y ->
+                val r = rateSquare(x, y)
+            }
+        }*/
+
+        // Rate every square
+        // Find biggest rating
+        // Return it's coordinate
+
+        return Coordinate(1,1) // TODO Temporary return value
     }
 }
