@@ -169,18 +169,15 @@ class GameLogicTest {
             //123456789
             "          ", //0
             "          ", //1
-            "          ", //2
-            "          ", //3
+            "   o      ", //2
+            "    o x   ", //3
             "    x     ", //4
-            "          ", //5
-            "          ", //6
+            "   x  o   ", //5
+            "       o  ", //6
             "          ", //7
         )
         createGameField(model, data)
 
-        // TODO dummy test
-        assertEquals(GameLogic.Coordinate(1, 1), game.calculateNextMove())
-        // X is on (4,4)
-        //assertEquals(GameLogic.Coordinate(3, 3), game.calculateNextMove())
+        assertEquals(GameLogic.Coordinate(5, 4), game.calculateNextMove())
     }
 }

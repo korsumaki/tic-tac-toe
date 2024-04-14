@@ -92,22 +92,29 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
             rateX += rX.toFloat().pow(2.0f).toInt()
             rateO += rO.toFloat().pow(2.0f).toInt()
         }
+        // TODO opposite directions should give higher rating
+        // TODO if there is no room for winning, it should get lower rating
 
         return max(rateX, rateO)
     }
 
     fun calculateNextMove(): Coordinate {
         // Loop play field
-        /*repeat(model.sizeX) { x ->
-            repeat(model.sizeY) { y ->
-                val r = rateSquare(x, y)
+        var bestRate = 0
+        var bestPlace = Coordinate(0,0)
+        repeat(model.sizeY) { y ->
+            repeat(model.sizeX) { x ->
+                // Rate every square
+                val rate = rateSquare(x, y)
+                // Find biggest rating
+                if (rate > bestRate) {
+                    bestRate = rate
+                    bestPlace = Coordinate(x, y)
+                    println("New bestRate found: $rate at $bestPlace")
+                }
             }
-        }*/
+        }
 
-        // Rate every square
-        // Find biggest rating
-        // Return it's coordinate
-
-        return Coordinate(1,1) // TODO Temporary return value
+        return bestPlace
     }
 }
