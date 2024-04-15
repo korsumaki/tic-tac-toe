@@ -134,8 +134,8 @@ class GameLogicTest {
         assertEquals(1, game.rateSquare(5,5)) // 1 neighbour -> 1
         assertEquals(2, game.rateSquare(4,5)) // 2 neighbour -> 2
         assertEquals(2, game.rateSquare(2,1)) // 2/2 neighbours -> 2
-        assertEquals(3, game.rateSquare(4,1)) // 2/3 neighbours -> 3
-        assertEquals(8, game.rateSquare(8,6)) // 8 neighbours -> 8
+        assertEquals(5, game.rateSquare(4,1)) // 2/3 neighbours (2 at the same line) -> 5
+        assertEquals(16, game.rateSquare(8,6)) // 8 neighbours (at the same line) -> 16
     }
 
     @Test
@@ -159,6 +159,29 @@ class GameLogicTest {
         assertEquals(9, game.rateSquare(6,3)) // 3 in row -> 3*3 -> 9
         assertEquals(8, game.rateSquare(2,4)) // 2+2 in row -> 2*2 + 2*2 -> 8
         assertEquals(13, game.rateSquare(3,7)) // 3+2 in row -> 3*3 + 2*2 -> 13
+    }
+
+    @Test
+    fun testGameLogicRateSquare_oppositeDirections() {
+        val model = GameViewModel(10,10)
+        val game = GameLogic(model,5)
+        val data = arrayOf(
+            //123456789
+            "          ", //0
+            "xxx x     ", //1
+            "          ", //2
+            "     o    ", //3
+            "   oo     ", //4
+            "          ", //5
+            "   xx x   ", //6
+            "          ", //7
+        )
+        createGameField(model, data)
+
+        assertEquals(4, game.rateSquare(2,4)) // 2 -> 2*2 -> 4
+        assertEquals(5, game.rateSquare(5,4)) // 2+1-> 4+1 -> 5
+        assertEquals(9, game.rateSquare(5,6)) // 3 -> 3*3 -> 9
+        assertEquals(16, game.rateSquare(3,1)) // 4 -> 4*4 -> 16
     }
 
     @Test

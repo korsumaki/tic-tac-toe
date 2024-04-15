@@ -1,5 +1,4 @@
 import kotlin.math.max
-import kotlin.math.pow
 
 /**
  * Game Logic class
@@ -8,6 +7,21 @@ import kotlin.math.pow
  * @param winningLength     How many marks are needed to win
  */
 class GameLogic(private val model: GameViewModel, private val winningLength: Int = 5) {
+
+    data class Coordinate(val x: Int, val y: Int)
+
+    private val oppositeDirectionIndex = 4 // Index to add to get opposite direction
+    private val directions = arrayOf(
+        Coordinate(1,0),
+        Coordinate(1,1),
+        Coordinate(0,1),
+        Coordinate(-1,1),
+
+        Coordinate(-1,0),
+        Coordinate(-1,-1),
+        Coordinate(0,-1),
+        Coordinate(1,-1),
+    )
 
     /**
      * Count given marks from location (x,y) to direction (dx,dy)
@@ -30,7 +44,7 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
     /**
      * Check Winner from one point.
      *
-     * Idea is to check only  from location of last added mark, because winner was checked already
+     * Idea is to check only from location of last added mark, because winner was checked already
      * after every previous mark. Thus it is not needed to check whole table every time.
      *
      * @param x     x coordinate
@@ -62,37 +76,30 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
         return false
     }
 
-    data class Coordinate(val x: Int, val y: Int)
-
     fun rateSquare(x: Int, y: Int): Int {
         // Square must be empty to be meaningful to rate
         if (model.get(x,y) != TicMark.EMPTY) {
             return -1
         }
 
-        //val opposite = 4 // Index to add to get opposite direction
-        val dirs = arrayOf(
-            Coordinate(1,0),
-            Coordinate(1,1),
-            Coordinate(0,1),
-            Coordinate(-1,1),
-
-            Coordinate(-1,0),
-            Coordinate(-1,-1),
-            Coordinate(0,-1),
-            Coordinate(1,-1),
-        )
-
         var rateX = 0
         var rateO = 0
-        for (direction in dirs) {
-            val rX = countForDirection(x+direction.x, y+direction.y, direction.x, direction.y, TicMark.X)
-            val rO = countForDirection(x+direction.x, y+direction.y, direction.x, direction.y, TicMark.O)
+        for (i in 0..< directions.size/2) {
+            // Sum opposite direction ratings together to give those higher rating
+            val dirA = directions[i]
+            val dirB = directions[i+oppositeDirectionIndex]
 
-            rateX += rX.toFloat().pow(2.0f).toInt()
-            rateO += rO.toFloat().pow(2.0f).toInt()
+            // TicMark.X
+            val countX = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.X) +
+                    countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.X)
+            // TicMark.O
+            val countO = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.O) +
+                    countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.O)
+
+            //  Pow(2) to boost rating when there are more marks at the same line
+            rateX += countX * countX
+            rateO += countO * countO
         }
-        // TODO opposite directions should give higher rating
         // TODO if there is no room for winning, it should get lower rating
 
         return max(rateX, rateO)
@@ -108,6 +115,7 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
                 val rate = rateSquare(x, y)
                 // Find biggest rating
                 if (rate > bestRate) {
+                    // TODO this could randomize which place to select, if there are several bestRates
                     bestRate = rate
                     bestPlace = Coordinate(x, y)
                     println("New bestRate found: $rate at $bestPlace")
