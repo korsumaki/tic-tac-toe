@@ -70,7 +70,14 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
         ticArray[x + y * sizeX] = mark.value
     }
 
-    fun tapped(x: Int, y:Int) {
+    /**
+     * Set mark to tapped square
+     *
+     * @param x     x coordinate
+     * @param y     y coordinate
+     * @return      true if move was valid
+     */
+    fun tapped(x: Int, y:Int): Boolean {
         if (get(x,y) == TicMark.EMPTY) {
             set(x, y, nextTurn)
 
@@ -79,7 +86,9 @@ class GameViewModel(val sizeX: Int = 7, val sizeY: Int = 8) /*: ViewModel()*/ {
             } else {
                 TicMark.X
             }
+            return true
         }
+        return false
     }
 }
 

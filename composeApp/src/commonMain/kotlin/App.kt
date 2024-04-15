@@ -87,14 +87,16 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
                                 onClick = {
                                     if (!isWinnerFound) {
                                         possibleWinnerMark = viewModel.nextTurn
-                                        viewModel.tapped(x, y)
-                                        isWinnerFound = game.checkWinner(x,y,possibleWinnerMark)
+                                        val isValid = viewModel.tapped(x, y)
+                                        if (isValid) {
+                                            isWinnerFound = game.checkWinner(x,y,possibleWinnerMark)
 
-                                        if (!isWinnerFound) {
-                                            possibleWinnerMark = viewModel.nextTurn
-                                            val computersMove = game.calculateNextMove()
-                                            viewModel.tapped(computersMove.x, computersMove.y)
-                                            isWinnerFound = game.checkWinner(computersMove.x, computersMove.y, possibleWinnerMark)
+                                            if (!isWinnerFound) {
+                                                possibleWinnerMark = viewModel.nextTurn
+                                                val computersMove = game.calculateNextMove()
+                                                viewModel.tapped(computersMove.x, computersMove.y)
+                                                isWinnerFound = game.checkWinner(computersMove.x, computersMove.y, possibleWinnerMark)
+                                            }
                                         }
                                     }
                                           },
