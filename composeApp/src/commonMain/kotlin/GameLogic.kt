@@ -53,24 +53,16 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
      */
     fun checkWinner(x: Int, y: Int, mark: TicMark): Boolean {
         // For each direction, need to count also opposite direction
+        for (i in 0..< directions.size/2) {
+            val dirA = directions[i]
+            val dirB = directions[i + oppositeDirectionIndex]
 
-        // NOTE: this will compare "greater than" (>) not "greater or equal" (>=), because starting
-        // point (x,y) is counted twice (for both countForDirection() calls).
-        if ((countForDirection(x, y, 1, 0, mark)
-                    + countForDirection(x, y, -1, 0, mark)) > winningLength) {
-            return true
-        }
-        if ((countForDirection(x, y, 1, 1, mark)
-                    + countForDirection(x, y, -1, -1, mark)) > winningLength) {
-            return true
-        }
-        if ((countForDirection(x, y, 0, 1, mark)
-                    + countForDirection(x, y, 0, -1, mark)) > winningLength) {
-            return true
-        }
-        if ((countForDirection(x, y, -1, 1, mark)
-                    + countForDirection(x, y, 1, -1, mark)) > winningLength) {
-            return true
+            // NOTE: this will compare "greater than" (>) not "greater or equal" (>=), because starting
+            // point (x,y) is counted twice (for both countForDirection() calls).
+            if ((countForDirection(x, y, dirA.x, dirA.y, mark) +
+                        countForDirection(x, y, dirB.x, dirB.y, mark)) > winningLength) {
+                return true
+            }
         }
 
         return false
