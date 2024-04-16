@@ -26,7 +26,7 @@ import tictactoe.composeapp.generated.resources.empty_24px
 @Composable
 @Preview
 fun App() {
-    val viewModel = GameViewModel(7,8)
+    val viewModel = GameViewModel(7,12)
     AppWithParams(
         viewModel,
         cross = {
@@ -68,7 +68,7 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
 
             val borderModifier = Modifier.border(
                 border = BorderStroke(
-                    width = 1.dp,
+                    width = 0.1.dp,
                     color = Color.Blue)
             )
 

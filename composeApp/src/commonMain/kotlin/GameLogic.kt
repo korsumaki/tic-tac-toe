@@ -42,6 +42,26 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
     }
 
     /**
+     * Count given marks and empty squares from location (x,y) to direction (dx,dy)
+     *
+     * Count marks recursively to given direction. This is used to check if there is enough space
+     * to win, in given direction.
+     *
+     * @param x     x coordinate
+     * @param y     y coordinate
+     * @param dx    direction in x (-1, 0, 1)
+     * @param dy    direction in y (-1, 0, 1)
+     * @param mark  mark to count
+     */
+    fun countSpaceForDirection(x: Int, y: Int, dx: Int, dy: Int, mark: TicMark): Int {
+        val currentMark = model.get(x,y)
+        if (currentMark == mark || currentMark == TicMark.EMPTY) {
+            return 1 + countSpaceForDirection(x+dx, y+dy, dx, dy, mark)
+        }
+        return 0
+    }
+
+    /**
      * Check Winner from one point.
      *
      * Idea is to check only from location of last added mark, because winner was checked already
@@ -82,24 +102,37 @@ class GameLogic(private val model: GameViewModel, private val winningLength: Int
             val dirB = directions[i+oppositeDirectionIndex]
 
             // TicMark.X
-            val countX = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.X) +
-                    countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.X)
+            var countX = 0
+            val spaceX = countSpaceForDirection(x, y, dirA.x, dirA.y, TicMark.X) +
+                    countSpaceForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.X)
+            // No need to count for that direction, if there is no enough space
+            if (spaceX >= winningLength) {
+                countX = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.X) +
+                        countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.X)
+            }
+
             // TicMark.O
-            val countO = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.O) +
-                    countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.O)
+            var countO = 0
+            val spaceO = countSpaceForDirection(x, y, dirA.x, dirA.y, TicMark.O) +
+                    countSpaceForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.O)
+
+            // No need to count for that direction, if there is no enough space
+            if (spaceO >= winningLength) {
+                countO = countForDirection(x+dirA.x, y+dirA.y, dirA.x, dirA.y, TicMark.O) +
+                        countForDirection(x+dirB.x, y+dirB.y, dirB.x, dirB.y, TicMark.O)
+            }
 
             //  Pow(2) to boost rating when there are more marks at the same line
             rateX += countX * countX
             rateO += countO * countO
         }
-        // TODO if there is no room for winning, it should get lower rating
 
         return max(rateX, rateO)
     }
 
     fun calculateNextMove(): Coordinate {
         // Loop play field
-        var bestRate = 0
+        var bestRate = -1 // To allow also 0 be valid "best" move (in case there are no enough space for winning)
         var bestPlace = Coordinate(0,0)
         repeat(model.sizeY) { y ->
             repeat(model.sizeX) { x ->

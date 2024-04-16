@@ -45,6 +45,30 @@ class GameLogicTest {
     }
 
     @Test
+    fun testGameLogicCountSpaceForDirection() {
+        val model = GameViewModel(10,10)
+        val game = GameLogic(model,3)
+        val data = arrayOf(
+            //123456789
+            "          ", //0
+            "          ", //1
+            " x        ", //2
+            " ooo   x  ", //3
+            "      x   ", //4
+            "     x    ", //5
+            "          ", //6
+            "          ", //7
+        )
+        createGameField(model, data)
+
+        assertEquals(10, game.countSpaceForDirection(0,2,1,0,TicMark.X))
+        assertEquals(9, game.countSpaceForDirection(1,2,1,0,TicMark.X))
+        assertEquals(1, game.countSpaceForDirection(1,2,0,1,TicMark.X))
+        assertEquals(6, game.countSpaceForDirection(1,3,1,0,TicMark.O))
+        assertEquals(6, game.countSpaceForDirection(4,6,1,-1,TicMark.X))
+    }
+
+    @Test
     fun testGameLogicCountForDirection() {
         val model = GameViewModel(10,10)
         val game = GameLogic(model,3)
@@ -158,7 +182,7 @@ class GameLogicTest {
         assertEquals(4, game.rateSquare(2,0)) // 2 in row -> 2*2 -> 4
         assertEquals(9, game.rateSquare(6,3)) // 3 in row -> 3*3 -> 9
         assertEquals(8, game.rateSquare(2,4)) // 2+2 in row -> 2*2 + 2*2 -> 8
-        assertEquals(13, game.rateSquare(3,7)) // 3+2 in row -> 3*3 + 2*2 -> 13
+        assertEquals(8, game.rateSquare(3,7)) // O: 3+2 in row -> 2*2 + 2*2 -> 8 (3*x has no space)
     }
 
     @Test
