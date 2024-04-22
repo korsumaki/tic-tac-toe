@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AppAndroidPreview() {
-    val viewModel = GameViewModel(8,10)
+    val viewModel = GameViewModel(12,12)
     AppWithParams(
         viewModel,
         cross = { Text(" X ") },

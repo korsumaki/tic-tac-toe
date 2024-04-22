@@ -1,9 +1,11 @@
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -26,7 +28,7 @@ import tictactoe.composeapp.generated.resources.empty_24px
 @Composable
 @Preview
 fun App() {
-    val viewModel = GameViewModel(7,12)
+    val viewModel = GameViewModel(12,12)
     AppWithParams(
         viewModel,
         cross = {
@@ -79,7 +81,11 @@ fun AppWithParams(viewModel: GameViewModel = GameViewModel(), cross: @Composable
                 Text("Next turn: ${viewModel.nextTurn}")
             }
 
-            Row {
+            val state = rememberScrollState()
+            LaunchedEffect(Unit) { state.animateScrollTo(state.maxValue/2) }
+
+            Row(modifier = Modifier.horizontalScroll(state)
+            ) {
                 repeat(viewModel.sizeX) { x ->
                     Column {
                         repeat(viewModel.sizeY) { y ->

@@ -41,15 +41,17 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
   - ViewModel
     + callback func to update tapped info to viewmodel
     + fill marks from viewmodel
-  - Algorithm to work behind viewmodel
+  + Algorithm to work behind viewmodel
     + Check winner
-    - Calculate next move
+    + Calculate next move
   - Platforms
     - wear os
   - Fine tuning
     - Enable tapping to whole box
     - scale UI properly (dynamically) in all platforms (android, web, desktop)
     - responsive screen size
+  - UI development
+    + UI scrolling to allow larger play field
   - Own development workflow
     + use compose preview
     + test with device or desktop
