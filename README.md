@@ -47,7 +47,7 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
   - Platforms
     - wear os
   - Fine tuning
-    - Enable tapping to whole box
+    - Enable tapping to whole box (web, desktop?)
     - scale UI properly (dynamically) in all platforms (android, web, desktop)
     - responsive screen size
   - UI development
@@ -55,8 +55,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
   - Own development workflow
     + use compose preview
     + test with device or desktop
-      - Ctrl-Shift-R in testcase or test class
-      - Ctrl-R to rerun tests
+      **- Ctrl-Shift-R in testcase or test class
+      - Ctrl-R to rerun tests**
     - fast way to build from IDE?
   - Testing
     - Compose testing

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.2"
+agp = "8.5.2" # Kotlin Multiplatform: Maximum tested Android Gradle Plugin version: 8.5
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -13,21 +13,12 @@ androidx-test-junit = "1.1.5"
 junit = "4.13.2"
 
 # Dependencies between kotlin vs compose multiplatform
-kotlin = "1.9.22"
+kotlin = "2.0.21"
 
-compose = "1.6.4" #1.6.5 https://developer.android.com/jetpack/androidx/releases/compose-ui
+compose = "1.7.4" # https://developer.android.com/jetpack/androidx/releases/compose-ui
 
-# kotlin vs compose-plugin (compose multiplatform)
 # https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html
-# 1.9.23 == 1.6.1+
-# 1.9.22 == 1.5.12+
-compose-plugin = "1.6.0" #1.6.1
-
-# kotlin vs compose-compiler
-# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-# 1.9.23 == 1.5.11
-# 1.9.22 == 1.5.10
-compose-compiler = "1.5.10"
+compose-plugin = "1.7.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -48,3 +39,4 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
